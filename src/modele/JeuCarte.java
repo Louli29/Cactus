@@ -8,10 +8,11 @@ import java.util.Random;
 
 public class JeuCarte {
     List<Carte> pioche;
+    public static int NB_CARTE_COULEUR=14;
 
     public JeuCarte() {
         pioche = new ArrayList<>();
-        for (int i = 1; i < 14; i++) {
+        for (int i = 1; i < NB_CARTE_COULEUR; i++) {
             for (Couleur couleur : Couleur.values()) {
                 pioche.add(new Carte(i, couleur));
             }
