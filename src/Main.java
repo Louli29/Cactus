@@ -10,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         JeuCarte pioche = new JeuCarte();
+        pioche.melanger();
         List<Joueur> joueurs = new ArrayList<>();
 
         for (int i = 0; i < NB_JOUEUR; i++) {
@@ -24,7 +25,7 @@ public class Main {
 
             j.afficherMonJeu();
             for (int i = 0; i < Joueur.NB_CARTE_DEBUT / 2; i++) {
-                j.regarderCarte();
+                j.regarderCarteDebut();
             }
 
         }

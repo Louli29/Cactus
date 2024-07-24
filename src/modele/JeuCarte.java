@@ -3,8 +3,8 @@ package modele;
 import enums.Couleur;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class JeuCarte {
     List<Carte> pioche;
@@ -19,10 +19,13 @@ public class JeuCarte {
         }
     }
 
+    public void melanger(){
+        Collections.shuffle(pioche);
+    }
+
     public Carte piocher() {
-        Random random = new Random();
-        Carte carte = pioche.get(random.nextInt(pioche.size()));
-        pioche.remove(carte);
-        return carte;
+        Carte cartePioche = pioche.get(pioche.size()-1);
+        pioche.remove(pioche.size()-1);
+        return cartePioche;
     }
 }

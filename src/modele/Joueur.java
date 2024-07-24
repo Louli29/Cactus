@@ -13,9 +13,9 @@ public class Joueur {
         for (int j=0 ; j<NB_CARTE_DEBUT ; j++){
             jeu.add(pioche.piocher());
         }
-        for (int k=0; k<jeu.size(); k++){
-            Carte a=jeu.get(k);
-            nombrePoint+=a.valeur;
+
+        for(Carte c:jeu){
+            nombrePoint+=c.valeur;
         }
     }
 
@@ -27,7 +27,7 @@ public class Joueur {
     }
 
     public Scanner scanner = new Scanner(System.in);
-    public void regarderCarte(){
+    public void regarderCarteDebut(){
         System.out.println("Entre 1,2,3 et 4 pour regarder une carte : ");
         String input = scanner.nextLine();
         int carteVu = Integer.parseInt(input);
