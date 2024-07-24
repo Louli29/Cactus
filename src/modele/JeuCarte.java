@@ -28,4 +28,5 @@ public class JeuCarte {
         pioche.remove(pioche.size()-1);
         return cartePioche;
     }
+
 }

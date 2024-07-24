@@ -7,16 +7,21 @@ import java.util.Scanner;
 public class Joueur {
     public static int NB_CARTE_DEBUT = 4;
     public List<Carte> jeu = new ArrayList<>();
-    int nombrePoint;
+    public Scanner scanner = new Scanner(System.in);
 
-    public Joueur( JeuCarte pioche){
+    private int nombrePoint;//todo changer ça en fonction
+    public String nom;//todo amelioration
+
+
+    public Joueur( JeuCarte pioche, String nom){
         for (int j=0 ; j<NB_CARTE_DEBUT ; j++){
-            jeu.add(pioche.piocher());
+            this.jeu.add(pioche.piocher());
         }
 
         for(Carte c:jeu){
             nombrePoint+=c.valeur;
         }
+        this.nom = nom;
     }
 
     public void afficherMonJeu(){
@@ -26,12 +31,18 @@ public class Joueur {
         }
     }
 
-    public Scanner scanner = new Scanner(System.in);
-    public void regarderCarteDebut(){
-        System.out.println("Entre 1,2,3 et 4 pour regarder une carte : ");
+
+
+    public void regarderCarteCache(){
+        System.out.println(nom+ "  Entre 1,2,3 et 4 pour regarder une carte : ");//todo modification car pas toujours 4 cartes
         String input = scanner.nextLine();
         int carteVu = Integer.parseInt(input);
         System.out.println("La carte "+ carteVu+ " est "+jeu.get(carteVu)+"\n");
+    }
+
+    public void jeter(List<Carte> poubelle,Carte carteJete){
+        poubelle.add(carteJete);
+        System.out.println(carteJete);
     }
 
 }
