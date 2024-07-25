@@ -2,12 +2,10 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Joueur {
     public static int NB_CARTE_DEBUT = 4;
     public List<Carte> jeu = new ArrayList<>();
-    public Scanner scanner = new Scanner(System.in);
     public String nom;//todo amelioration
 
 

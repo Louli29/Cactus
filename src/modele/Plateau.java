@@ -10,17 +10,26 @@ public class Plateau {
     public static Scanner scanner = new Scanner(System.in);
     JeuCarte pioche;
     List<Joueur> joueurs ;
+    List<Carte> poubelles ;
+
+    /*public static final String ANSI_CLEAR_LINE = "\u001B[2K";
+    public static final String ANSI_CURSOR_HOME = "\u001B[0G";
+    public static final String ANSI_CURSOR_UP = "\u001B[%dA";
+
+     */
 
     public Plateau() {
         this.pioche = new JeuCarte();
         this.pioche.melanger();
         this.joueurs = new ArrayList<>();
+        this.poubelles = new ArrayList<>();
 
         for (int i = 0; i < NB_JOUEUR; i++) {
             String nomJ=demanderJoueur("Quel est ton nom: ");
             joueurs.add(new Joueur(pioche, nomJ));
         }
         initialisation(joueurs);
+        jouer(joueurs,poubelles);
     }
 
 
@@ -31,6 +40,31 @@ public class Plateau {
                 System.out.println(choisirCarte(j));
             }
 
+        }
+    }
+
+    private void jouer(List<Joueur> joueurs,List<Carte> poubelle){
+        for (Joueur j : joueurs){
+            System.out.println(" C'est au tour de "+ j.nom+"\n");
+            Carte carteMain=pioche.piocher();
+            System.out.println("Ta carte pioché est : "+carteMain+"\n");
+            choix(j,carteMain,poubelle);
+
+        }
+    }
+
+    private void choix(Joueur j,Carte carteMain,List<Carte> poubelle){
+        int verif=0;
+        while (verif == 0) {
+            String reponse = demanderJoueur("Que veux tu faire : " + "\n" + "jeter ta carte (tape 0) ou l'enchanger( tape 1)"+"\n");
+            int choix = Integer.parseInt(reponse);
+            if (choix == 0) {
+                j.jeter(poubelle, carteMain);
+                verif = 1;
+            } else if (choix == 1) {
+                System.out.println("tu as voulu changer");
+                verif = 1;
+            }
         }
     }
 
@@ -53,4 +87,15 @@ public class Plateau {
         String numCarte=demanderJoueur(j.nom+" Quelle carte veux-tu voir ? ");
         return j.montrerCarte(numCarte);
     }
+
+ /*   private void cacherLignes(int nombreLigne){
+        //Thread.sleep(5000);
+        for (int i = 0; i < nombreLigne; i++) {
+            System.out.print(ANSI_CLEAR_LINE + ANSI_CURSOR_HOME);
+            if (i < nombreLigne - 1) {
+                // Déplacer le curseur vers le haut sauf pour la dernière ligne
+                System.out.print(String.format(ANSI_CURSOR_UP, 1));
+            }
+        }
+    }*/
 }
