@@ -17,20 +17,18 @@ public class Plateau {
         this.joueurs = new ArrayList<>();
 
         for (int i = 0; i < NB_JOUEUR; i++) {
-            System.out.println("Quel est ton nom: ");
-            String nomJ = scanner.nextLine();
+            String nomJ=demanderJoueur("Quel est ton nom: ");
             joueurs.add(new Joueur(pioche, nomJ));
         }
         initialisation(joueurs);
     }
 
 
-    public void initialisation(List<Joueur> joueurs) {
+    private void initialisation(List<Joueur> joueurs) {
         for (Joueur j : joueurs) {
             j.afficherMonJeu();
-            for (int i = 0; i < Joueur.NB_CARTE_DEBUT / 2; i++) {
-
-                j.regarderCarteCache();
+            for (int i = 0; i < Joueur.NB_CARTE_DEBUT/2 ; i++) {
+                System.out.println(choisirCarte(j));
             }
 
         }
@@ -44,5 +42,15 @@ public class Plateau {
         }
         return null;
 
+    }
+
+    public String demanderJoueur(String question){
+        System.out.println(question);
+        return scanner.nextLine();
+    }
+
+    private String choisirCarte(Joueur j){
+        String numCarte=demanderJoueur(j.nom+" Quelle carte veux-tu voir ? ");
+        return j.montrerCarte(numCarte);
     }
 }
