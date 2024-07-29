@@ -25,8 +25,7 @@ public class JeuCarte {
 
     public Carte piocher() {
         Carte cartePioche = pioche.get(pioche.size()-1);
-        pioche.remove(pioche.size()-1);
-        return cartePioche;
+        return pioche.remove(pioche.size()-1) ;
     }
 
 }

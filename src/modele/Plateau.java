@@ -45,7 +45,7 @@ public class Plateau {
 
     private void jouer(List<Joueur> joueurs,List<Carte> poubelle){
         for (Joueur j : joueurs){
-            System.out.println(" C'est au tour de "+ j.nom+"\n");
+            System.out.println(" C'est au tour de "+ j.getNOM()+"\n");
             Carte carteMain=pioche.piocher();
             System.out.println("Ta carte pioché est : "+carteMain+"\n");
             choix(j,carteMain,poubelle);
@@ -56,7 +56,7 @@ public class Plateau {
     private void choix(Joueur j,Carte carteMain,List<Carte> poubelle){
         int verif=0;
         while (verif == 0) {
-            String reponse = demanderJoueur("Que veux tu faire : " + "\n" + "jeter ta carte (tape 0) ou l'enchanger( tape 1)"+"\n");
+            String reponse = demanderJoueur("Que veux tu faire : \n Jeter ta carte (tape 0) ou l'enchanger( tape 1) \n");
             int choix = Integer.parseInt(reponse);
             if (choix == 0) {
                 j.jeter(poubelle, carteMain);
@@ -70,7 +70,7 @@ public class Plateau {
 
     private Joueur trouverJoueur(String nom){
         for (Joueur j : joueurs) {
-            if (j.nom.equals(nom)){
+            if (j.getNOM().equals(nom)){
                 return j;
             }
         }
@@ -84,8 +84,14 @@ public class Plateau {
     }
 
     private String choisirCarte(Joueur j){
-        String numCarte=demanderJoueur(j.nom+" Quelle carte veux-tu voir ? ");
+        String numCarte=demanderJoueur(j.getNOM()+" Quelle carte veux-tu voir ? ");
+        while (j.montrerCarte(numCarte).equals("null")){
+            System.out.println("Erreur cette carte n'existe pas ");
+            numCarte=demanderJoueur(j.getNOM()+" Quelle carte veux-tu voir ? ");
+        }
         return j.montrerCarte(numCarte);
+
+
     }
 
  /*   private void cacherLignes(int nombreLigne){
