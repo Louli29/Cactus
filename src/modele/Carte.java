@@ -9,13 +9,14 @@ public class Carte {
     public Carte(int valeur, Couleur couleur){
         this.valeur=valeur;
         this.couleur=couleur;
+
     }
 
     public int getValeur(){
         switch (valeur){
             case 11,12: return 10;
             case 13:
-                if (couleur==Couleur.TREFLE || couleur==Couleur.CARREAU){
+                if (couleur==Couleur.TREFLE || couleur==Couleur.PIQUE){
                     return 15;
                 }
                 else{
@@ -23,6 +24,13 @@ public class Carte {
                 }
             default: return valeur;
         }
+    }
+
+    public boolean getPouvoir(){
+        return switch (valeur) {
+            case 7, 11, 12 -> true;
+            default -> false;
+        };
     }
 
     public String toString(){
