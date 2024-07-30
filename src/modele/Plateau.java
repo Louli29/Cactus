@@ -12,11 +12,6 @@ public class Plateau {
     List<Joueur> joueurs ;
     List<Carte> poubelles ;
 
-    /*public static final String ANSI_CLEAR_LINE = "\u001B[2K";
-    public static final String ANSI_CURSOR_HOME = "\u001B[0G";
-    public static final String ANSI_CURSOR_UP = "\u001B[%dA";
-
-     */
 
     public Plateau() {
         this.pioche = new JeuCarte();
@@ -37,9 +32,9 @@ public class Plateau {
         for (Joueur j : joueurs) {
             j.afficherMonJeu();
             for (int i = 0; i < Joueur.NB_CARTE_DEBUT/2 ; i++) {
-                System.out.println(choisirCarte(j));
+                Carte carte=choisirCarte(j);
+                System.out.println("Cette carte est : "+carte+"\n");
             }
-
         }
     }
 
@@ -56,13 +51,13 @@ public class Plateau {
     private void choix(Joueur j,Carte carteMain,List<Carte> poubelle){
         int verif=0;
         while (verif == 0) {
-            String reponse = demanderJoueur("Que veux tu faire : \n Jeter ta carte (tape 0) ou l'enchanger( tape 1) \n");
+            String reponse = demanderJoueur("Que veux tu faire : \n  Jeter ta carte (tape 0) ou l'enchanger( tape 1) \n");
             int choix = Integer.parseInt(reponse);
             if (choix == 0) {
                 j.jeter(poubelle, carteMain);
                 verif = 1;
             } else if (choix == 1) {
-                System.out.println("tu as voulu changer");
+                echanger(j,carteMain);
                 verif = 1;
             }
         }
@@ -75,7 +70,23 @@ public class Plateau {
             }
         }
         return null;
+    }
 
+    private Carte choisirCarte(Joueur j){
+        String numCarte=demanderJoueur(j.getNOM()+ " Quelle carte veux-tu voir ? ");
+        while (j.montrerCarte(numCarte)==null ){
+            System.out.println(" Erreur cette carte n'existe pas \n ");
+            numCarte=demanderJoueur(j.getNOM()+ " Quelle carte veux-tu voir ? ");
+        }
+        return j.montrerCarte(numCarte);
+    }
+
+    public void echanger(Joueur j, Carte carteMain){
+        String numCarte=demanderJoueur( " Quelle carte veux-tu échanger ? ");
+        int indexCarte=Integer.parseInt(numCarte);
+        Carte carteJeter=j.jeu.get(indexCarte-1);
+        j.jeu.set(indexCarte-1,carteMain);
+        j.jeter(poubelles,carteJeter);
     }
 
     public String demanderJoueur(String question){
@@ -83,25 +94,5 @@ public class Plateau {
         return scanner.nextLine();
     }
 
-    private String choisirCarte(Joueur j){
-        String numCarte=demanderJoueur(j.getNOM()+" Quelle carte veux-tu voir ? ");
-        while (j.montrerCarte(numCarte).equals("null")){
-            System.out.println("Erreur cette carte n'existe pas ");
-            numCarte=demanderJoueur(j.getNOM()+" Quelle carte veux-tu voir ? ");
-        }
-        return j.montrerCarte(numCarte);
 
-
-    }
-
- /*   private void cacherLignes(int nombreLigne){
-        //Thread.sleep(5000);
-        for (int i = 0; i < nombreLigne; i++) {
-            System.out.print(ANSI_CLEAR_LINE + ANSI_CURSOR_HOME);
-            if (i < nombreLigne - 1) {
-                // Déplacer le curseur vers le haut sauf pour la dernière ligne
-                System.out.print(String.format(ANSI_CURSOR_UP, 1));
-            }
-        }
-    }*/
 }

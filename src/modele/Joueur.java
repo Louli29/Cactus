@@ -27,27 +27,29 @@ public class Joueur {
         return NOM;
     }
 
-
-
-    public String montrerCarte(String numCarte){
-        int carteVu = Integer.parseInt(numCarte);
-        if(carteVu<= jeu.size() && carteVu>=0){
-            return "La carte "+ carteVu+ " est "+jeu.get(carteVu-1)+"\n";
-        }
-        else{
-            return "null";
-        }
-    }
-
     public void jeter(List<Carte> poubelle,Carte carteJete){
         poubelle.add(carteJete);
         System.out.println(carteJete);
     }
 
+
+
+    public Carte montrerCarte(String numCarte){
+        int carteVu = Integer.parseInt(numCarte);
+        if(carteVu<= jeu.size() && carteVu>=0){
+            return jeu.get(carteVu-1) ;
+        }
+        else{
+            return null ;
+        }
+    }
+
+
+
     private int compterPoint(){
         int nombrePoint=0;
         for(Carte c:jeu){
-            nombrePoint+=c.valeur;
+            nombrePoint+=c.getValeur();
         }
         return nombrePoint;
     }

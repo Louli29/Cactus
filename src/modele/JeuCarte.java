@@ -17,6 +17,7 @@ public class JeuCarte {
                 pioche.add(new Carte(i, couleur));
             }
         }
+
     }
 
     public void melanger(){
@@ -24,7 +25,6 @@ public class JeuCarte {
     }
 
     public Carte piocher() {
-        Carte cartePioche = pioche.get(pioche.size()-1);
         return pioche.remove(pioche.size()-1) ;
     }
 
