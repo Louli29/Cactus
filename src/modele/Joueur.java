@@ -29,7 +29,7 @@ public class Joueur {
 
     public void jeterCarte(List<Carte> poubelle, Carte carteSupp) {
         poubelle.add(carteSupp);
-        System.out.println(carteSupp + "\n \n \n");
+        System.out.println("La carte jetée par " + NOM + " est "+carteSupp + "\n \n \n");
     }
 
 
@@ -45,7 +45,7 @@ public class Joueur {
     private int compterPoint() {
         int nombrePoint = 0;
         for (Carte c : jeu) {
-            nombrePoint += c.getValeur();
+            nombrePoint += c.getPoint();
         }
         return nombrePoint;
     }

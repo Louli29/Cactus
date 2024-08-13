@@ -12,7 +12,11 @@ public class Carte {
 
     }
 
-    public int getValeur(){
+    public int getValeur() {
+        return valeur;
+    }
+
+    public int getPoint(){
         switch (valeur){
             case 11,12: return 10;
             case 13:
@@ -24,13 +28,6 @@ public class Carte {
                 }
             default: return valeur;
         }
-    }
-
-    public boolean getPouvoir(){
-        return switch (valeur) {
-            case 7, 11, 12 -> true;
-            default -> false;
-        };
     }
 
     public String toString(){

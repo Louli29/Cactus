@@ -32,20 +32,23 @@ public class Plateau {
         for (Joueur j : joueurs) {
             j.afficherMonJeu();
             for (int i = 0; i < Joueur.NB_CARTE_DEBUT / 2; i++) {
-                Carte carte = choisirCarte(j);
+                Carte carte = choisirCarte(j,j);
                 System.out.println("\n Cette carte est : " + carte + "\n");
             }
         }
     }
 
     private void jouer(List<Joueur> joueurs, List<Carte> poubelle) {
-        for (Joueur j : joueurs) {
-            System.out.println(" C'est au tour de " + j.getNOM() + "\n");
-            Carte carteMain = pioche.piocher();
-            System.out.println("Ta carte pioché est : " + carteMain + "\n");
-            choix(j, carteMain, poubelle);
-
+        Boolean cactus=false;
+        while (!cactus) {
+            for (Joueur j : joueurs) {
+                System.out.println(" C'est au tour de " + j.getNOM() + "\n");
+                Carte carteMain = pioche.piocher();
+                System.out.println("Ta carte pioché est : " + carteMain + "\n");
+                choix(j, carteMain, poubelle);
+            }
         }
+
     }
 
     private void choix(Joueur j, Carte carteMain, List<Carte> poubelle) {
@@ -55,12 +58,24 @@ public class Plateau {
             int choix = Integer.parseInt(reponse);
             if (choix == 0) {
                 j.jeterCarte(poubelle, carteMain);
+                getPouvoir(j,carteMain);
                 verif = true;
             } else if (choix == 1) {
                 echanger(j, carteMain);
                 verif = true;
             }
         }
+    }
+
+    public void getPouvoir(Joueur j,Carte carteMain){
+        switch(carteMain.getValeur()){
+            case 7:
+                System.out.println(choisirCarte(j,j) );
+            case 11: pouvoirValet(j) ;
+            //case 12: pouvoirDame();
+        }
+
+
     }
 
     private Joueur trouverJoueur(String nom) {
@@ -72,13 +87,13 @@ public class Plateau {
         return null;
     }
 
-    private Carte choisirCarte(Joueur j) {
-        String numCarte = demanderJoueur(j.getNOM() + "\n Quelle carte veux-tu voir ? ");
-        while (j.montrerCarte(numCarte) == null) {
+    private Carte choisirCarte(Joueur j, Joueur jadv) {
+        String numCarte = demanderJoueur("\n "+j.getNOM() + "\n Quelle carte veux-tu voir ? ");
+        while (jadv.montrerCarte(numCarte) == null) {
             System.out.println(" Erreur cette carte n'existe pas \n ");
-            numCarte = demanderJoueur(j.getNOM() + " Quelle carte veux-tu voir ? ");
+            numCarte = demanderJoueur("\n "+j.getNOM() + " Quelle carte veux-tu voir ? ");
         }
-        return j.montrerCarte(numCarte);
+        return jadv.montrerCarte(numCarte);
     }
 
     public void echanger(Joueur j, Carte carteMain) {
@@ -98,6 +113,8 @@ public class Plateau {
         Carte carteJeter = j.jeu.get(indexCarte - 1);
         j.jeu.set(indexCarte - 1, carteMain);
         j.jeterCarte(poubelles, carteJeter);
+        getPouvoir(j,carteJeter);
+
     }
 
     public String demanderJoueur(String question) {
@@ -105,6 +122,59 @@ public class Plateau {
         return scanner.nextLine();
     }
 
+    private void pouvoirValet(Joueur j){
+        System.out.println("Le pouvoir du valet est activé");
+        String adversaire = demanderJoueur("Tu veux voir la carte de quel joueur ? ");
+        Joueur joueurAdverse = trouverJoueur(adversaire);
+        while (joueurAdverse == null) {
+            System.out.println("erreur ce joueur n'existe pas \n ");
+            String nvAdversaire = demanderJoueur("Tu veux voir la carte de quel joueur ? ");
+            joueurAdverse = trouverJoueur(nvAdversaire);
+        }
+        System.out.println(choisirCarte(j,joueurAdverse));
+
+    }
+
+    /* private void pouvoirDame (){
+        String AdversaireA = demanderJoueur("Quel est le premier joueur dont tu veux échanger la carte ? ");
+        Joueur joueurA = trouverJoueur(AdversaireA);
+        while (joueurA == null) {
+            System.out.println("erreur ce joueur n'existe pas \n ");
+            String nvAdversaire = demanderJoueur("Quel est le premier joueur dont tu veux échanger la carte ? ");
+            joueurA = trouverJoueur(nvAdversaire);
+        }
+        int indexA = 0;
+        while (indexA > joueurA.jeu.size() || indexA <= 0) {
+            System.out.println("Erreur cette carte n'existe pas \n ");
+            String cA= demanderJoueur("Quel carte de son jeu veux tu échanger");
+            indexA = Integer.parseInt(cA);
+        }
+        Carte carteA = joueurA.jeu.get(indexA);
+
+        String AdversaireB = demanderJoueur("Quel est le premier joueur dont tu veux échanger la carte ? ");
+        Joueur joueurB = trouverJoueur(AdversaireB);
+        while (joueurB == null) {
+            System.out.println("erreur ce joueur n'existe pas \n ");
+            String Adversaire = demanderJoueur("Quel est le deuxième joueur dont tu veux échanger la carte ? ");
+            joueurB = trouverJoueur(Adversaire);
+        }
+        int indexB = 0;
+        while (indexB > joueurB.jeu.size() || indexB <= 0) {
+            System.out.println("Erreur cette carte n'existe pas \n ");
+            String cB= demanderJoueur("Quel carte de son jeu veux tu échanger");
+            indexB = Integer.parseInt(cB);
+        }
+        Carte carteB = joueurB.jeu.get(indexA);
+
+        joueurA.jeu.set(indexA, carteB);
+        joueurB.jeu.set(indexB, carteA);
+
+    }*/
 
 
-}
+
+    }
+
+
+
+
