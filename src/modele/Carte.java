@@ -32,6 +32,7 @@ public class Carte {
 
     public String toString(){
         return switch (valeur) {
+            case 1 -> " As de "+ couleur;
             case 11 -> " Valet de " + couleur;
             case 12 -> " Reine de " + couleur;
             case 13 -> " Roi de " + couleur;
