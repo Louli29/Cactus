@@ -69,7 +69,8 @@ public class Plateau {
 
     public void getPouvoir(Joueur j,Carte carteMain){
         switch(carteMain.getValeur()){
-            case 7: choisirCarte(j,j);
+            case 7:
+                System.out.println(choisirCarte(j,j));
                 break;
             case 11: pouvoirValet(j);
                 break;
@@ -97,24 +98,11 @@ public class Plateau {
     }
 
     public void echanger(Joueur j, Carte carteMain) {
-        String numCarte = demanderJoueur(" Quelle carte veux-tu échanger ? ");
-        int indexCarte;
-        try {
-             indexCarte = Integer.parseInt(numCarte);
-        }
-        catch (NumberFormatException e) {
-            System.out.println("Entrée invalide. Veuillez entrer un numéro de carte valide.");
-            return;
-        }
-        if (indexCarte < 1 || indexCarte > j.jeu.size()) {
-            System.out.println("Numéro de carte invalide. Veuillez entrer un numéro compris entre 1 et " + j.jeu.size());
-            return;
-        }
-        Carte carteJeter = j.jeu.get(indexCarte - 1);
-        j.jeu.set(indexCarte - 1, carteMain);
+        int indexCarte=trouverEtVerificationCarte(j);
+        Carte carteJeter = j.jeu.get(indexCarte );
+        j.jeu.set(indexCarte , carteMain);
         j.jeterCarte(poubelles, carteJeter);
         getPouvoir(j,carteJeter);
-
     }
 
     public String demanderJoueur(String question) {
@@ -123,33 +111,40 @@ public class Plateau {
     }
 
     private void pouvoirValet(Joueur j){
-        System.out.println("Le pouvoir du valet est activé");
         Joueur joueurAdverse=verificationJoueur("Tu veux voir la carte de quel joueur ? ");
         System.out.println(choisirCarte(j,joueurAdverse));
 
     }
 
     private Joueur verificationJoueur(String question) {
-        String adversaire = demanderJoueur(question);
-        Joueur joueurAdverse = trouverJoueur(adversaire);
-        while (joueurAdverse == null) {
-            System.out.println(" Erreur ce nom n'existe pas \n ");
-            String nvAdversaire = demanderJoueur(question);
-            joueurAdverse = trouverJoueur(nvAdversaire);
+        while (true) {
+            String adversaire = demanderJoueur(question);
+            Joueur joueurAdverse = trouverJoueur(adversaire);
+
+            if (joueurAdverse != null) {
+                return joueurAdverse;
+            } else {
+                System.out.println("Joueur introuvable. Veuillez entrer un nom valide.");
+            }
         }
-        return joueurAdverse;
     }
 
     private int trouverEtVerificationCarte( Joueur j) {
-        String cA= demanderJoueur("Quelle carte de son jeu veux tu échanger");
-        int index = Integer.parseInt(cA);
-        while (index > j.jeu.size() || index <= 0) {
-            System.out.println("Erreur cette carte n'existe pas \n ");
-            cA= demanderJoueur("Quelle carte de son jeu veux tu échanger");
+        String cA = demanderJoueur(" Quelle carte veux-tu échanger ? ");
+        int index;
+        try {
             index = Integer.parseInt(cA);
+            if (index < 1 || index >= j.jeu.size()+1) {
+                System.out.println("Numéro de carte invalide. Veuillez entrer un numéro compris entre 1 et " + j.jeu.size());
+            } else {
+                return index-1;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrée invalide. Veuillez entrer un numéro de carte valide.");
         }
-        return index;
+        return trouverEtVerificationCarte(j);
     }
+
 
     private void pouvoirDame (){
         Joueur joueurA =verificationJoueur(" Entre le nom du premier joueur dont tu veux échanger la carte ");
@@ -160,15 +155,8 @@ public class Plateau {
         int indexB =trouverEtVerificationCarte(joueurB);
         Carte carteB = joueurB.jeu.get(indexA);
 
-        joueurA.afficherMonJeu();
-        joueurB.afficherMonJeu();
-
         joueurA.jeu.set(indexA, carteB);
         joueurB.jeu.set(indexB, carteA);
-
-        joueurA.afficherMonJeu();
-        joueurB.afficherMonJeu();
-
     }
 
 
