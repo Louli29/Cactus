@@ -70,9 +70,11 @@ public class Plateau {
     public void getPouvoir(Joueur j,Carte carteMain){
         switch(carteMain.getValeur()){
             case 7: choisirCarte(j,j);
+                break;
             case 11: pouvoirValet(j);
+                break;
             case 12: pouvoirDame();
-
+                break;
         }
     }
 
@@ -158,8 +160,14 @@ public class Plateau {
         int indexB =trouverEtVerificationCarte(joueurB);
         Carte carteB = joueurB.jeu.get(indexA);
 
+        joueurA.afficherMonJeu();
+        joueurB.afficherMonJeu();
+
         joueurA.jeu.set(indexA, carteB);
         joueurB.jeu.set(indexB, carteA);
+
+        joueurA.afficherMonJeu();
+        joueurB.afficherMonJeu();
 
     }
 

@@ -17,9 +17,9 @@ public class Joueur {
     }
 
     public void afficherMonJeu() {
-        String carteCaractere = "\uD83C\uDCA0";
+        //String carteCaractere = "\uD83C\uDCA0";
         for (int i = 1; i < jeu.size() + 1; i++) {
-            System.out.print("  " + carteCaractere + i + "  ");
+            System.out.print("  " + jeu.get(i-1) /*carteCaractere+ i */+ "  ");
         }
     }
 
